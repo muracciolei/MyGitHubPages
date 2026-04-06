@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1353,11 +1353,11 @@
         // Initialization
         // ========================================
         
-        // Initialize theme
+        // Initialize theme (dark mode default)
         function initTheme() {
             const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+            // Default to dark theme if no saved preference
+            const isDark = savedTheme ? savedTheme === 'dark' : true;
             
             document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
             
