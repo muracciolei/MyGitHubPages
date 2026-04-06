@@ -346,18 +346,48 @@
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
-            padding: 20px;
+            padding: 0;
             transition: all var(--transition);
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            overflow: hidden;
         }
 
         .repo-card:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-hover);
             border-color: var(--text-muted);
+        }
+
+        .repo-thumbnail {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            background: var(--surface-elevated);
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: opacity var(--transition);
+        }
+
+        .repo-thumbnail:hover {
+            opacity: 0.85;
+        }
+
+        .repo-card.list-item .repo-thumbnail {
+            width: 160px;
+            height: 100px;
+            flex-shrink: 0;
+            border-bottom: none;
+            border-right: 1px solid var(--border);
+        }
+
+        .repo-card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
         }
 
         .repo-header {
@@ -887,6 +917,18 @@
         const GITHUB_USERNAME = 'muracciolei';
         
         const PER_PAGE = 10;
+
+        // ========================================
+        // CUSTOM THUMBNAILS
+        // Add preview images for your repositories here
+        // Format: 'repo-name': 'image-url'
+        // You can use external URLs or data URIs
+        // ========================================
+        const THUMBNAILS = {
+            // Example:
+            // 'my-repo': 'https://example.com/preview.jpg',
+            // 'another-repo': 'data:image/png;base64,...'
+        };
         
         // Language colors for common languages
         const LANGUAGE_COLORS = {
@@ -1134,10 +1176,16 @@
         function renderRepoCard(repo) {
             const languageColor = getLanguageColor(repo.language);
             const updatedTime = formatRelativeTime(repo.updated_at);
+            const thumbnail = THUMBNAILS[repo.name] || '';
             
             return `
                 <article class="repo-card ${isGridView ? '' : 'list-item'}">
-                    <div class="repo-content">
+                    ${thumbnail ? `
+                        <a href="${repo.pagesUrl || repo.html_url}" target="_blank" rel="noopener">
+                            <img src="${thumbnail}" class="repo-thumbnail" alt="${repo.name} preview" loading="lazy" onerror="this.style.display='none'">
+                        </a>
+                    ` : ''}
+                    <div class="repo-card-content">
                         <div class="repo-header">
                             <a href="${repo.html_url}" class="repo-name" target="_blank" rel="noopener">${repo.name}</a>
                             <span class="repo-visibility">
