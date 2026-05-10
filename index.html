@@ -2000,6 +2000,49 @@
 
         // Start the app
         init();
+
+        // ========================================
+        // Service Worker Registration
+        // ========================================
+
+        // Register service worker for PWA functionality
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then((registration) => {
+                        console.log('[PWA] Service Worker registered:', registration);
+
+                        // Check for updates periodically
+                        setInterval(() => {
+                            registration.update();
+                        }, 60000); // Check every minute
+
+                        // Listen for updates
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            if (newWorker) {
+                                newWorker.addEventListener('statechange', () => {
+                                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                        // New service worker is ready
+                                        console.log('[PWA] New version available! Refresh to update.');
+                                        // You could show a toast notification here
+                                    }
+                                });
+                            }
+                        });
+                    })
+                    .catch((error) => {
+                        console.log('[PWA] Service Worker registration failed:', error);
+                    });
+            });
+
+            // Handle service worker messages
+            navigator.serviceWorker.addEventListener('message', (event) => {
+                console.log('[PWA] Message from Service Worker:', event.data);
+            });
+        } else {
+            console.log('[PWA] Service Workers not supported in this browser');
+        }
     </script>
 </body>
 </html>
