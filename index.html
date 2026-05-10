@@ -1256,7 +1256,7 @@
         // ========================================
         // Configuration
         // ========================================
-        const PER_PAGE = 10;
+        const PER_PAGE = 12;
 
         // ========================================
         // Authentication State
@@ -1669,7 +1669,7 @@
                     <div class="repo-card-content">
                         ${faviconUrl ? `
                             <div class="repo-favicon-container">
-                                <img src="${faviconUrl}" class="repo-favicon" alt="${repo.name} favicon" loading="lazy" onerror="this.style.display='none'">
+                                <img src="${faviconUrl}" class="repo-favicon" alt="${repo.name} favicon" loading="lazy" onerror="this.parentElement.style.display='none'">
                             </div>
                         ` : ''}
                         <div class="repo-header">
