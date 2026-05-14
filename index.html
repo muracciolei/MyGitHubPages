@@ -1042,6 +1042,763 @@
         }
 
         /* ========================================
+           User Profile Banner
+           ======================================== */
+        .profile-banner {
+            display: none;
+            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-elevated) 100%);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInDown 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .profile-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--warning));
+        }
+
+        .profile-banner.show {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .profile-avatar-wrapper {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            box-shadow: 0 4px 16px rgba(88, 166, 255, 0.3);
+            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05) rotate(-2deg);
+            box-shadow: 0 6px 24px rgba(88, 166, 255, 0.4);
+        }
+
+        .profile-info {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .profile-name {
+            font-family: var(--font-heading);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .profile-username {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .profile-bio {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .profile-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .profile-meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .profile-meta-item svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .profile-meta-item a {
+            color: var(--text-secondary);
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .profile-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 8px 14px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            transition: all 200ms ease;
+            cursor: default;
+            min-width: 70px;
+        }
+
+        .profile-stat:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .profile-stat-value {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .profile-stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* ========================================
+           Recent Users Dropdown
+           ======================================== */
+        .recent-users-wrapper {
+            position: relative;
+        }
+
+        .recent-users-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            min-width: 220px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-hover);
+            padding: 8px;
+            z-index: 100;
+            display: none;
+            animation: slideDown 200ms ease-out;
+        }
+
+        .recent-users-dropdown.show {
+            display: block;
+        }
+
+        .recent-users-header {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 6px 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .recent-user-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 150ms ease;
+            color: var(--text-primary);
+        }
+
+        .recent-user-item:hover {
+            background: var(--surface-elevated);
+        }
+
+        .recent-user-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--surface-elevated);
+        }
+
+        .recent-user-name {
+            flex: 1;
+            font-size: 13px;
+        }
+
+        .recent-user-remove {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+            opacity: 0;
+            transition: all 150ms ease;
+        }
+
+        .recent-user-item:hover .recent-user-remove {
+            opacity: 1;
+        }
+
+        .recent-user-remove:hover {
+            background: rgba(248, 81, 73, 0.15);
+            color: var(--danger);
+        }
+
+        .recent-users-empty {
+            padding: 16px 10px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        /* ========================================
+           Skeleton Loading
+           ======================================== */
+        .skeleton-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 16px;
+            padding-bottom: 40px;
+        }
+
+        @media (min-width: 640px) {
+            .skeleton-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .skeleton-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .skeleton-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-height: 220px;
+        }
+
+        .skeleton-line {
+            height: 14px;
+            background: linear-gradient(90deg, var(--surface-elevated) 0%, var(--border) 50%, var(--surface-elevated) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite ease-in-out;
+            border-radius: 4px;
+        }
+
+        .skeleton-line.skeleton-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+        }
+
+        .skeleton-line.skeleton-title {
+            width: 60%;
+            height: 18px;
+        }
+
+        .skeleton-line.skeleton-text {
+            width: 100%;
+        }
+
+        .skeleton-line.skeleton-text-short {
+            width: 75%;
+        }
+
+        .skeleton-line.skeleton-button {
+            height: 40px;
+            margin-top: auto;
+            border-radius: 6px;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ========================================
+           Random Repo Highlight (Surprise Me)
+           ======================================== */
+        .surprise-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 14px;
+            background: linear-gradient(135deg, #ff6b9d, #c66cff);
+            border: none;
+            border-radius: var(--radius);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(198, 108, 255, 0.3);
+        }
+
+        .surprise-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 4px 16px rgba(198, 108, 255, 0.4);
+        }
+
+        .surprise-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .surprise-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+            animation: sparkle 2s infinite ease-in-out;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-10deg) scale(1.1); }
+            50% { transform: rotate(0deg) scale(1); }
+            75% { transform: rotate(10deg) scale(1.1); }
+        }
+
+        .repo-card.highlight-random {
+            animation: highlightPulse 1500ms ease-out;
+            box-shadow: 0 0 0 4px rgba(198, 108, 255, 0.4), 0 8px 32px rgba(198, 108, 255, 0.3);
+        }
+
+        @keyframes highlightPulse {
+            0%, 100% { box-shadow: 0 0 0 4px rgba(198, 108, 255, 0), 0 2px 8px rgba(0, 0, 0, 0.15); }
+            50% { box-shadow: 0 0 0 6px rgba(198, 108, 255, 0.4), 0 8px 32px rgba(198, 108, 255, 0.3); }
+        }
+
+        /* ========================================
+           Topics Tags
+           ======================================== */
+        .repo-topics-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 4px;
+        }
+
+        .topic-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-radius: 50px;
+            font-size: 11px;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 150ms ease;
+        }
+
+        .topic-badge:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        /* ========================================
+           Extended Repo Stats
+           ======================================== */
+        .repo-stats-extended {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 8px 0;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .repo-stat-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 150ms ease;
+        }
+
+        .repo-stat-item:hover {
+            color: var(--text-primary);
+        }
+
+        .repo-stat-item svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        /* ========================================
+           Keyboard Shortcuts Hint
+           ======================================== */
+        .kbd-hint {
+            display: inline-flex;
+            align-items: center;
+            padding: 1px 6px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: var(--font-heading);
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-left: 4px;
+        }
+
+        .keyboard-hint-overlay {
+            position: fixed;
+            bottom: 80px;
+            right: 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            box-shadow: var(--shadow-hover);
+            z-index: 200;
+            min-width: 280px;
+            display: none;
+            animation: slideInRight 300ms ease-out;
+        }
+
+        .keyboard-hint-overlay.show {
+            display: block;
+        }
+
+        .keyboard-hint-overlay h4 {
+            font-family: var(--font-heading);
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .keyboard-hint-overlay .close-hint {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .keyboard-hint-overlay .close-hint:hover {
+            background: var(--surface-elevated);
+            color: var(--text-primary);
+        }
+
+        .shortcut-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .shortcut-row .kbd-hint {
+            margin: 0;
+        }
+
+        .help-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 200ms ease;
+            z-index: 150;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .help-btn:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        /* ========================================
+           Compare Users Modal
+           ======================================== */
+        .compare-modal-content {
+            max-width: 800px;
+            width: 95%;
+        }
+
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 640px) {
+            .compare-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .compare-column {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+        }
+
+        .compare-column-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .compare-column-header img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+        }
+
+        .compare-column-header h3 {
+            font-family: var(--font-heading);
+            font-size: 16px;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .compare-column-header p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .compare-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .compare-stat:last-child {
+            border-bottom: none;
+        }
+
+        .compare-stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .compare-stat-value {
+            font-family: var(--font-heading);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .compare-stat.winner .compare-stat-value {
+            color: var(--accent);
+        }
+
+        .compare-stat.winner .compare-stat-value::after {
+            content: ' ★';
+            font-size: 12px;
+            color: var(--warning);
+        }
+
+        .compare-input-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .compare-input-row input {
+            flex: 1;
+            padding: 10px 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-size: 13px;
+        }
+
+        .compare-input-row input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+        }
+
+        /* ========================================
+           Animations & Micro-interactions
+           ======================================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .repo-card {
+            animation: fadeInUp 400ms cubic-bezier(0.4, 0, 0.2, 1) backwards;
+        }
+
+        .repo-card:nth-child(1) { animation-delay: 0ms; }
+        .repo-card:nth-child(2) { animation-delay: 50ms; }
+        .repo-card:nth-child(3) { animation-delay: 100ms; }
+        .repo-card:nth-child(4) { animation-delay: 150ms; }
+        .repo-card:nth-child(5) { animation-delay: 200ms; }
+        .repo-card:nth-child(6) { animation-delay: 250ms; }
+        .repo-card:nth-child(7) { animation-delay: 300ms; }
+        .repo-card:nth-child(8) { animation-delay: 350ms; }
+        .repo-card:nth-child(9) { animation-delay: 400ms; }
+        .repo-card:nth-child(10) { animation-delay: 450ms; }
+        .repo-card:nth-child(11) { animation-delay: 500ms; }
+        .repo-card:nth-child(12) { animation-delay: 550ms; }
+
+        .stat-pill {
+            transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stat-pill:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(88, 166, 255, 0.15);
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 80px;
+            right: 24px;
+            padding: 12px 20px;
+            background: var(--surface);
+            border: 1px solid var(--accent);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-size: 14px;
+            box-shadow: var(--shadow-hover);
+            z-index: 300;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+
+        .toast.error {
+            border-color: var(--danger);
+        }
+
+        .toast svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--accent);
+        }
+
+        .toast.error svg {
+            fill: var(--danger);
+        }
+
+        /* ========================================
            Responsive Adjustments
            ======================================== */
         @media (max-width: 640px) {
@@ -1131,13 +1888,25 @@
 
                         <!-- Auth UI -->
                         <div id="auth-container">
-                            <button class="btn" id="login-btn" title="Login with GitHub">
-                                <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.405-.225-1.005-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-                                Login
-                            </button>
+                            <div class="recent-users-wrapper">
+                                <button class="btn" id="login-btn" title="Login with GitHub (Press G)">
+                                    <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.405-.225-1.005-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                                    Login
+                                </button>
+                                <div class="recent-users-dropdown" id="recent-users-dropdown">
+                                    <div class="recent-users-header">Recent Users</div>
+                                    <div id="recent-users-list"></div>
+                                </div>
+                            </div>
                             <div id="user-info" style="display: none;" class="user-info">
                                 <span id="username-display"></span>
-                                <button class="btn" id="share-btn" title="Share this profile">
+                                <button class="btn" id="recent-users-btn" title="Switch user / Recent users">
+                                    <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                                </button>
+                                <button class="btn" id="compare-btn" title="Compare with another user">
+                                    <svg viewBox="0 0 24 24"><path d="M10 3v18l-2-2-2 2V3h4zm8 0v18l-2-2-2 2V3h4zM4 5v14h2V5H4zm16 0v14h2V5h-2z"/></svg>
+                                </button>
+                                <button class="btn" id="share-btn" title="Share this profile (Press S)">
                                     <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.15c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.44 9.31 6.77 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.77 0 1.44-.3 1.96-.77l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
                                 </button>
                                 <button class="btn" id="logout-btn" title="Logout">
@@ -1153,6 +1922,39 @@
         <!-- Main Content -->
         <main class="main">
             <div class="container">
+                <!-- User Profile Banner -->
+                <div class="profile-banner" id="profile-banner">
+                    <div class="profile-avatar-wrapper">
+                        <img class="profile-avatar" id="profile-avatar" src="" alt="User avatar">
+                    </div>
+                    <div class="profile-info">
+                        <div class="profile-name">
+                            <span id="profile-name-text">User Name</span>
+                            <span class="profile-username" id="profile-username-text">@username</span>
+                        </div>
+                        <p class="profile-bio" id="profile-bio"></p>
+                        <div class="profile-meta" id="profile-meta"></div>
+                        <div class="profile-stats">
+                            <div class="profile-stat">
+                                <span class="profile-stat-value" id="profile-followers">0</span>
+                                <span class="profile-stat-label">Followers</span>
+                            </div>
+                            <div class="profile-stat">
+                                <span class="profile-stat-value" id="profile-following">0</span>
+                                <span class="profile-stat-label">Following</span>
+                            </div>
+                            <div class="profile-stat">
+                                <span class="profile-stat-value" id="profile-repos">0</span>
+                                <span class="profile-stat-label">Repos</span>
+                            </div>
+                            <div class="profile-stat">
+                                <span class="profile-stat-value" id="profile-pages">0</span>
+                                <span class="profile-stat-label">Pages</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Stats Bar -->
                 <div class="stats-bar" id="stats-bar">
                     <div class="stat-pill">
@@ -1183,6 +1985,10 @@
                         Showing <strong id="showing-count">0</strong> of <strong id="filter-total">0</strong> repositories with GitHub Pages
                     </div>
                     <div class="language-filter">
+                        <button class="surprise-btn" id="surprise-btn" title="Highlight a random repository">
+                            <svg viewBox="0 0 24 24"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg>
+                            Surprise Me
+                        </button>
                         <label for="language-select">Language:</label>
                         <div class="select-wrapper">
                             <select class="select" id="language-select">
@@ -1190,6 +1996,66 @@
                             </select>
                             <svg class="select-arrow" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Skeleton Loading Placeholder -->
+                <div class="skeleton-grid" id="skeleton-grid" style="display: none;">
+                    <div class="skeleton-card">
+                        <div class="skeleton-line skeleton-icon"></div>
+                        <div class="skeleton-line skeleton-title"></div>
+                        <div class="skeleton-line skeleton-text"></div>
+                        <div class="skeleton-line skeleton-text-short"></div>
+                        <div class="skeleton-line skeleton-button"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-line skeleton-icon"></div>
+                        <div class="skeleton-line skeleton-title"></div>
+                        <div class="skeleton-line skeleton-text"></div>
+                        <div class="skeleton-line skeleton-text-short"></div>
+                        <div class="skeleton-line skeleton-button"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-line skeleton-icon"></div>
+                        <div class="skeleton-line skeleton-title"></div>
+                        <div class="skeleton-line skeleton-text"></div>
+                        <div class="skeleton-line skeleton-text-short"></div>
+                        <div class="skeleton-line skeleton-button"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-line skeleton-icon"></div>
+                        <div class="skeleton-line skeleton-title"></div>
+                        <div class="skeleton-line skeleton-text"></div>
+                        <div class="skeleton-line skeleton-text-short"></div>
+                        <div class="skeleton-line skeleton-button"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-line skeleton-icon"></div>
+                        <div class="skeleton-line skeleton-title"></div>
+                        <div class="skeleton-line skeleton-text"></div>
+                        <div class="skeleton-line skeleton-text-short"></div>
+                        <div class="skeleton-line skeleton-button"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-line skeleton-icon"></div>
+                        <div class="skeleton-line skeleton-title"></div>
+                        <div class="skeleton-line skeleton-text"></div>
+                        <div class="skeleton-line skeleton-text-short"></div>
+                        <div class="skeleton-line skeleton-button"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-line skeleton-icon"></div>
+                        <div class="skeleton-line skeleton-title"></div>
+                        <div class="skeleton-line skeleton-text"></div>
+                        <div class="skeleton-line skeleton-text-short"></div>
+                        <div class="skeleton-line skeleton-button"></div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-line skeleton-icon"></div>
+                        <div class="skeleton-line skeleton-title"></div>
+                        <div class="skeleton-line skeleton-text"></div>
+                        <div class="skeleton-line skeleton-text-short"></div>
+                        <div class="skeleton-line skeleton-button"></div>
                     </div>
                 </div>
 
@@ -1233,6 +2099,91 @@
                 <p>Built with ♥ • Data from <a href="https://github.com" target="_blank">GitHub API</a></p>
             </div>
         </footer>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        <span id="toast-message">Notification</span>
+    </div>
+
+    <!-- Keyboard Shortcuts Help Button -->
+    <button class="help-btn" id="help-btn" title="Keyboard shortcuts (Press ?)">?</button>
+
+    <!-- Keyboard Shortcuts Overlay -->
+    <div class="keyboard-hint-overlay" id="keyboard-hint-overlay">
+        <h4>
+            Keyboard Shortcuts
+            <button class="close-hint" id="close-hint">&times;</button>
+        </h4>
+        <div class="shortcut-row">
+            <span>Focus search</span>
+            <span class="kbd-hint">/</span>
+        </div>
+        <div class="shortcut-row">
+            <span>Login / Switch user</span>
+            <span class="kbd-hint">G</span>
+        </div>
+        <div class="shortcut-row">
+            <span>Share profile</span>
+            <span class="kbd-hint">S</span>
+        </div>
+        <div class="shortcut-row">
+            <span>Compare users</span>
+            <span class="kbd-hint">C</span>
+        </div>
+        <div class="shortcut-row">
+            <span>Random repo</span>
+            <span class="kbd-hint">R</span>
+        </div>
+        <div class="shortcut-row">
+            <span>Toggle theme</span>
+            <span class="kbd-hint">T</span>
+        </div>
+        <div class="shortcut-row">
+            <span>Toggle view</span>
+            <span class="kbd-hint">V</span>
+        </div>
+        <div class="shortcut-row">
+            <span>Previous page</span>
+            <span class="kbd-hint">←</span>
+        </div>
+        <div class="shortcut-row">
+            <span>Next page</span>
+            <span class="kbd-hint">→</span>
+        </div>
+        <div class="shortcut-row">
+            <span>Clear search</span>
+            <span class="kbd-hint">Esc</span>
+        </div>
+        <div class="shortcut-row">
+            <span>Show shortcuts</span>
+            <span class="kbd-hint">?</span>
+        </div>
+    </div>
+
+    <!-- Compare Users Modal -->
+    <div id="compare-modal" class="modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content compare-modal-content">
+            <div class="modal-header">
+                <h2>Compare Users</h2>
+                <button class="modal-close" id="compare-modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="compare-input-row">
+                    <input type="text" id="compare-user1" placeholder="First username (e.g. muracciolei)">
+                    <input type="text" id="compare-user2" placeholder="Second username (e.g. octocat)">
+                    <button class="btn-primary" id="compare-run-btn">Compare</button>
+                </div>
+                <div id="compare-error" class="error-message" style="display: none;"></div>
+                <div id="compare-loading" class="loading" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p class="loading-text">Comparing users...</p>
+                </div>
+                <div id="compare-results" class="compare-grid" style="display: none;"></div>
+            </div>
+        </div>
     </div>
 
     <!-- Login Modal -->
@@ -1321,6 +2272,9 @@
         let currentSort = 'updated';
         let currentLanguage = '';
         let currentSearch = '';
+        let currentUserProfile = null; // Stores full user profile object
+        let recentUsers = []; // Stores recent users
+        const MAX_RECENT_USERS = 5;
 
         // ========================================
         // DOM Elements
@@ -1359,7 +2313,43 @@
             modalCancel: document.getElementById('modal-cancel'),
             usernameInput: document.getElementById('username-input'),
             loginSubmit: document.getElementById('login-submit'),
-            authError: document.getElementById('auth-error')
+            authError: document.getElementById('auth-error'),
+            // Profile banner elements
+            profileBanner: document.getElementById('profile-banner'),
+            profileAvatar: document.getElementById('profile-avatar'),
+            profileNameText: document.getElementById('profile-name-text'),
+            profileUsernameText: document.getElementById('profile-username-text'),
+            profileBio: document.getElementById('profile-bio'),
+            profileMeta: document.getElementById('profile-meta'),
+            profileFollowers: document.getElementById('profile-followers'),
+            profileFollowing: document.getElementById('profile-following'),
+            profileRepos: document.getElementById('profile-repos'),
+            profilePages: document.getElementById('profile-pages'),
+            // Recent users
+            recentUsersBtn: document.getElementById('recent-users-btn'),
+            recentUsersDropdown: document.getElementById('recent-users-dropdown'),
+            recentUsersList: document.getElementById('recent-users-list'),
+            // Skeleton
+            skeletonGrid: document.getElementById('skeleton-grid'),
+            // Surprise me
+            surpriseBtn: document.getElementById('surprise-btn'),
+            // Toast
+            toast: document.getElementById('toast'),
+            toastMessage: document.getElementById('toast-message'),
+            // Help / Shortcuts
+            helpBtn: document.getElementById('help-btn'),
+            keyboardHintOverlay: document.getElementById('keyboard-hint-overlay'),
+            closeHint: document.getElementById('close-hint'),
+            // Compare
+            compareBtn: document.getElementById('compare-btn'),
+            compareModal: document.getElementById('compare-modal'),
+            compareModalClose: document.getElementById('compare-modal-close'),
+            compareUser1: document.getElementById('compare-user1'),
+            compareUser2: document.getElementById('compare-user2'),
+            compareRunBtn: document.getElementById('compare-run-btn'),
+            compareError: document.getElementById('compare-error'),
+            compareLoading: document.getElementById('compare-loading'),
+            compareResults: document.getElementById('compare-results')
         };
 
         // ========================================
@@ -1430,6 +2420,169 @@
                 clearTimeout(timeout);
                 timeout = setTimeout(later, wait);
             };
+        }
+
+        // Format large numbers (e.g., 1500 -> 1.5k)
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
+            return num.toString();
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success', duration = 3000) {
+            elements.toast.classList.remove('error');
+            if (type === 'error') {
+                elements.toast.classList.add('error');
+            }
+            elements.toastMessage.textContent = message;
+            elements.toast.classList.add('show');
+            setTimeout(() => {
+                elements.toast.classList.remove('show');
+            }, duration);
+        }
+
+        // ========================================
+        // Recent Users (localStorage)
+        // ========================================
+        function loadRecentUsers() {
+            try {
+                const data = localStorage.getItem('recent_users');
+                recentUsers = data ? JSON.parse(data) : [];
+            } catch {
+                recentUsers = [];
+            }
+        }
+
+        function saveRecentUsers() {
+            try {
+                localStorage.setItem('recent_users', JSON.stringify(recentUsers));
+            } catch {}
+        }
+
+        function addRecentUser(user) {
+            // user: { login, avatar_url, name }
+            recentUsers = recentUsers.filter(u => u.login !== user.login);
+            recentUsers.unshift({
+                login: user.login,
+                avatar_url: user.avatar_url,
+                name: user.name || user.login
+            });
+            recentUsers = recentUsers.slice(0, MAX_RECENT_USERS);
+            saveRecentUsers();
+            renderRecentUsers();
+        }
+
+        function removeRecentUser(login) {
+            recentUsers = recentUsers.filter(u => u.login !== login);
+            saveRecentUsers();
+            renderRecentUsers();
+        }
+
+        function renderRecentUsers() {
+            if (recentUsers.length === 0) {
+                elements.recentUsersList.innerHTML = '<div class="recent-users-empty">No recent users yet</div>';
+                return;
+            }
+            elements.recentUsersList.innerHTML = recentUsers.map(user => `
+                <div class="recent-user-item" data-username="${user.login}">
+                    <img class="recent-user-avatar" src="${user.avatar_url}" alt="${user.login}" loading="lazy">
+                    <span class="recent-user-name">${user.name || user.login}</span>
+                    <button class="recent-user-remove" data-remove="${user.login}" title="Remove">&times;</button>
+                </div>
+            `).join('');
+
+            // Attach event listeners
+            elements.recentUsersList.querySelectorAll('.recent-user-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    if (e.target.closest('.recent-user-remove')) return;
+                    const username = item.dataset.username;
+                    closeRecentUsersDropdown();
+                    loginUser(username);
+                });
+            });
+            elements.recentUsersList.querySelectorAll('.recent-user-remove').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    removeRecentUser(btn.dataset.remove);
+                });
+            });
+        }
+
+        function toggleRecentUsersDropdown() {
+            elements.recentUsersDropdown.classList.toggle('show');
+        }
+
+        function closeRecentUsersDropdown() {
+            elements.recentUsersDropdown.classList.remove('show');
+        }
+
+        // ========================================
+        // User Profile Banner
+        // ========================================
+        async function fetchUserProfile(username) {
+            try {
+                const response = await fetch(`https://api.github.com/users/${username}`);
+                if (!response.ok) {
+                    throw new Error('Failed to load profile');
+                }
+                return await response.json();
+            } catch (err) {
+                console.error('Profile fetch error:', err);
+                return null;
+            }
+        }
+
+        function renderProfileBanner(user, pagesCount = 0) {
+            if (!user) {
+                elements.profileBanner.classList.remove('show');
+                return;
+            }
+            currentUserProfile = user;
+
+            elements.profileAvatar.src = user.avatar_url;
+            elements.profileAvatar.alt = user.login;
+            elements.profileNameText.textContent = user.name || user.login;
+            elements.profileUsernameText.textContent = `@${user.login}`;
+
+            if (user.bio) {
+                elements.profileBio.textContent = user.bio;
+                elements.profileBio.style.display = 'block';
+            } else {
+                elements.profileBio.style.display = 'none';
+            }
+
+            // Build meta
+            const metaItems = [];
+            if (user.location) {
+                metaItems.push(`<span class="profile-meta-item"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>${user.location}</span>`);
+            }
+            if (user.company) {
+                metaItems.push(`<span class="profile-meta-item"><svg viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>${user.company}</span>`);
+            }
+            if (user.blog) {
+                const blogUrl = user.blog.startsWith('http') ? user.blog : `https://${user.blog}`;
+                metaItems.push(`<span class="profile-meta-item"><svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg><a href="${blogUrl}" target="_blank" rel="noopener">${user.blog}</a></span>`);
+            }
+            if (user.twitter_username) {
+                metaItems.push(`<span class="profile-meta-item"><svg viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/></svg>@${user.twitter_username}</span>`);
+            }
+            metaItems.push(`<span class="profile-meta-item"><svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>Joined ${new Date(user.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>`);
+
+            elements.profileMeta.innerHTML = metaItems.join('');
+
+            elements.profileFollowers.textContent = formatNumber(user.followers || 0);
+            elements.profileFollowing.textContent = formatNumber(user.following || 0);
+            elements.profileRepos.textContent = formatNumber(user.public_repos || 0);
+            elements.profilePages.textContent = formatNumber(pagesCount);
+
+            elements.profileBanner.classList.add('show');
+        }
+
+        function updateProfilePagesCount(count) {
+            if (currentUserProfile) {
+                elements.profilePages.textContent = formatNumber(count);
+            }
         }
 
         // ========================================
@@ -1563,22 +2716,25 @@
         function logoutUser() {
             currentUser = null;
             isAuthenticated = false;
+            currentUserProfile = null;
 
             localStorage.removeItem('github_username');
 
             updateAuthUI();
+            elements.profileBanner.classList.remove('show');
 
             allRepos = [];
             filteredRepos = [];
             elements.reposGrid.innerHTML = '';
             showEmptyState();
             updateStats();
+            showToast('Logged out successfully');
         }
 
         // Open login modal
         function openLoginModal() {
             elements.loginModal.style.display = 'flex';
-            elements.tokenInput.focus();
+            setTimeout(() => elements.usernameInput.focus(), 100);
         }
 
         // Close login modal
@@ -1601,7 +2757,11 @@
             const url = `https://api.github.com/users/${currentUser}/repos?per_page=100&sort=updated&page=${page}`;
 
             try {
-                const response = await fetch(url);
+                const response = await fetch(url, {
+                    headers: {
+                        'Accept': 'application/vnd.github.mercy-preview+json'
+                    }
+                });
 
                 if (!response.ok) {
                     if (response.status === 403) {
@@ -1700,9 +2860,10 @@
             const updatedTime = formatRelativeTime(repo.updated_at);
             const thumbnail = THUMBNAILS[repo.name] || '';
             const faviconUrl = repo.pagesUrl ? `${repo.pagesUrl}favicon.ico` : null;
+            const topics = Array.isArray(repo.topics) ? repo.topics.slice(0, 4) : [];
 
             return `
-                <article class="repo-card ${isGridView ? '' : 'list-item'}">
+                <article class="repo-card ${isGridView ? '' : 'list-item'}" data-repo-name="${repo.name}">
                     ${thumbnail ? `
                         <a href="${repo.pagesUrl || repo.html_url}" target="_blank" rel="noopener">
                             <img src="${thumbnail}" class="repo-thumbnail" alt="${repo.name} preview" loading="lazy" onerror="this.style.display='none'">
@@ -1721,33 +2882,54 @@
                                 ${repo.visibility}
                             </span>
                         </div>
-                        
+
                         <p class="repo-description ${repo.description ? '' : 'empty'}">
                             ${repo.description || 'No description'}
                         </p>
-                        
+
+                        ${topics.length > 0 ? `
+                            <div class="repo-topics-list">
+                                ${topics.map(t => `<span class="topic-badge" data-topic="${t}">${t}</span>`).join('')}
+                            </div>
+                        ` : ''}
+
+                        <div class="repo-stats-extended">
+                            <span class="repo-stat-item" title="Stars">
+                                <svg viewBox="0 0 24 24"><path d="M12 2l2.09 6.26L21 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 3 9.27l6.91-1.01L12 2z"/></svg>
+                                ${formatNumber(repo.stargazers_count)}
+                            </span>
+                            <span class="repo-stat-item" title="Forks">
+                                <svg viewBox="0 0 24 24"><path d="M9 17.5c0 1.38-1.12 2.5-2.5 2.5S4 18.88 4 17.5 5.12 15 6.5 15s2.5 1.12 2.5 2.5zM6.5 5C5.12 5 4 6.12 4 7.5S5.12 10 6.5 10 9 8.88 9 7.5 7.88 5 6.5 5zm11 0C16.12 5 15 6.12 15 7.5s1.12 2.5 2.5 2.5S20 8.88 20 7.5 18.88 5 17.5 5zM18 11.5h-1V14H8v-2.5H7V14H6v1h1v3.5h1V15h8v3.5h1V15h1v-1h-1v-2.5z"/></svg>
+                                ${formatNumber(repo.forks_count || 0)}
+                            </span>
+                            <span class="repo-stat-item" title="Open issues">
+                                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm0-4h-2V7h2v8z"/></svg>
+                                ${formatNumber(repo.open_issues_count || 0)}
+                            </span>
+                            <span class="repo-stat-item" title="Watchers">
+                                <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>
+                                ${formatNumber(repo.watchers_count || 0)}
+                            </span>
+                        </div>
+
                         <div class="repo-meta">
-                            ${repo.language && `
+                            ${repo.language ? `
                                 <button class="language-badge" data-language="${repo.language}">
                                     <span class="language-dot" style="background: ${languageColor}"></span>
                                     ${repo.language}
                                 </button>
-                            `}
+                            ` : ''}
                             <span class="repo-stat">
-                                <svg viewBox="0 0 24 24"><path d="M12 2l2.09 6.26L21 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 3 9.27l6.91-1.01L12 2z"/></svg>
-                                ${repo.stargazers_count}
-                            </span>
-                            <span class="repo-stat">
-                                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 6.48 2 6.48 2H5.5C4.67 2 4 2.67 4 3.5v1H3v5h4v-1h2v1h5V3.5c0-.83-.67-1.5-1.5-1.5h-.52v-.18C13.52 2.1 12 2 12 2zm.5 8H9V5h4.5a2.5 2.5 0 0 1 0 5zM7.5 10H11v5H7.5v-5zm6.5 0H17v5h-3v-5z"/></svg>
+                                <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
                                 ${updatedTime}
                             </span>
                         </div>
                     </div>
-                    
+
                     <div class="repo-actions">
-                        <a href="${repo.pagesUrl || repo.html_url}" 
-                           class="repo-link" 
-                           target="_blank" 
+                        <a href="${repo.pagesUrl || repo.html_url}"
+                           class="repo-link"
+                           target="_blank"
                            rel="noopener"
                            ${!repo.pagesUrl ? 'title="GitHub Pages URL not available"' : ''}>
                             <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
@@ -1764,13 +2946,13 @@
                 elements.reposGrid.innerHTML = '';
                 return;
             }
-            
+
             const start = (currentPage - 1) * PER_PAGE;
             const end = start + PER_PAGE;
             const pageRepos = filteredRepos.slice(start, end);
-            
+
             elements.reposGrid.innerHTML = pageRepos.map(renderRepoCard).join('');
-            
+
             // Add click handlers for language badges
             document.querySelectorAll('.language-badge').forEach(badge => {
                 badge.addEventListener('click', () => {
@@ -1779,6 +2961,213 @@
                     applyFiltersAndSort();
                 });
             });
+
+            // Add click handlers for topic badges - use as search
+            document.querySelectorAll('.topic-badge').forEach(badge => {
+                badge.addEventListener('click', () => {
+                    elements.searchInput.value = badge.dataset.topic;
+                    currentSearch = badge.dataset.topic;
+                    applyFiltersAndSort();
+                });
+            });
+        }
+
+        // ========================================
+        // Surprise Me (Random Repo)
+        // ========================================
+        function surpriseMe() {
+            if (filteredRepos.length === 0) {
+                showToast('No repositories to surprise you with!', 'error');
+                return;
+            }
+
+            const randomIndex = Math.floor(Math.random() * filteredRepos.length);
+            const randomRepo = filteredRepos[randomIndex];
+
+            // Navigate to the page containing the random repo
+            const targetPage = Math.floor(randomIndex / PER_PAGE) + 1;
+            if (targetPage !== currentPage) {
+                currentPage = targetPage;
+                renderRepos();
+                updatePagination();
+            }
+
+            // Highlight the random repo after a slight delay to ensure rendering
+            setTimeout(() => {
+                const card = document.querySelector(`.repo-card[data-repo-name="${randomRepo.name}"]`);
+                if (card) {
+                    card.classList.add('highlight-random');
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(() => card.classList.remove('highlight-random'), 1500);
+                    showToast(`✨ Random pick: ${randomRepo.name}`);
+                }
+            }, 100);
+        }
+
+        // ========================================
+        // Compare Users
+        // ========================================
+        async function compareUsersByName(user1Name, user2Name) {
+            elements.compareError.style.display = 'none';
+            elements.compareResults.style.display = 'none';
+            elements.compareLoading.style.display = 'flex';
+
+            try {
+                const [user1Res, user2Res] = await Promise.all([
+                    fetch(`https://api.github.com/users/${user1Name}`),
+                    fetch(`https://api.github.com/users/${user2Name}`)
+                ]);
+
+                if (!user1Res.ok) throw new Error(`User "${user1Name}" not found`);
+                if (!user2Res.ok) throw new Error(`User "${user2Name}" not found`);
+
+                const [user1, user2] = await Promise.all([user1Res.json(), user2Res.json()]);
+
+                // Fetch repos to get pages count
+                const [repos1Res, repos2Res] = await Promise.all([
+                    fetch(`https://api.github.com/users/${user1Name}/repos?per_page=100`),
+                    fetch(`https://api.github.com/users/${user2Name}/repos?per_page=100`)
+                ]);
+
+                const [repos1, repos2] = await Promise.all([repos1Res.json(), repos2Res.json()]);
+
+                const pagesCount1 = (repos1 || []).filter(r => r.has_pages).length;
+                const pagesCount2 = (repos2 || []).filter(r => r.has_pages).length;
+                const totalStars1 = (repos1 || []).reduce((sum, r) => sum + (r.stargazers_count || 0), 0);
+                const totalStars2 = (repos2 || []).reduce((sum, r) => sum + (r.stargazers_count || 0), 0);
+                const totalForks1 = (repos1 || []).reduce((sum, r) => sum + (r.forks_count || 0), 0);
+                const totalForks2 = (repos2 || []).reduce((sum, r) => sum + (r.forks_count || 0), 0);
+
+                renderCompareResults(user1, user2, {
+                    pagesCount1, pagesCount2,
+                    totalStars1, totalStars2,
+                    totalForks1, totalForks2
+                });
+            } catch (error) {
+                elements.compareError.textContent = error.message;
+                elements.compareError.style.display = 'block';
+                elements.compareLoading.style.display = 'none';
+            }
+        }
+
+        function renderCompareResults(user1, user2, stats) {
+            elements.compareLoading.style.display = 'none';
+            elements.compareResults.style.display = 'grid';
+
+            const compareStats = [
+                { label: 'Followers', v1: user1.followers || 0, v2: user2.followers || 0 },
+                { label: 'Following', v1: user1.following || 0, v2: user2.following || 0 },
+                { label: 'Public Repos', v1: user1.public_repos || 0, v2: user2.public_repos || 0 },
+                { label: 'GitHub Pages', v1: stats.pagesCount1, v2: stats.pagesCount2 },
+                { label: 'Total Stars', v1: stats.totalStars1, v2: stats.totalStars2 },
+                { label: 'Total Forks', v1: stats.totalForks1, v2: stats.totalForks2 },
+                { label: 'Public Gists', v1: user1.public_gists || 0, v2: user2.public_gists || 0 }
+            ];
+
+            const renderColumn = (user, isWinner) => `
+                <div class="compare-column">
+                    <div class="compare-column-header">
+                        <img src="${user.avatar_url}" alt="${user.login}">
+                        <div>
+                            <h3>${user.name || user.login}</h3>
+                            <p>@${user.login}</p>
+                        </div>
+                    </div>
+                    ${compareStats.map(s => {
+                        const value = isWinner === 'left' ? s.v1 : s.v2;
+                        const other = isWinner === 'left' ? s.v2 : s.v1;
+                        const isWin = value > other;
+                        return `
+                            <div class="compare-stat ${isWin ? 'winner' : ''}">
+                                <span class="compare-stat-label">${s.label}</span>
+                                <span class="compare-stat-value">${formatNumber(value)}</span>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+
+            elements.compareResults.innerHTML = renderColumn(user1, 'left') + renderColumn(user2, 'right');
+        }
+
+        function openCompareModal() {
+            elements.compareModal.style.display = 'flex';
+            elements.compareUser1.value = currentUser || '';
+            elements.compareUser2.value = '';
+            elements.compareError.style.display = 'none';
+            elements.compareResults.style.display = 'none';
+            setTimeout(() => elements.compareUser2.focus(), 100);
+        }
+
+        function closeCompareModal() {
+            elements.compareModal.style.display = 'none';
+        }
+
+        // ========================================
+        // Keyboard Shortcuts
+        // ========================================
+        function handleKeyboardShortcut(e) {
+            // Don't trigger shortcuts when typing in inputs
+            const isInputActive = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName);
+
+            // Escape - clear search or close modals
+            if (e.key === 'Escape') {
+                if (elements.loginModal.style.display === 'flex') {
+                    closeLoginModal();
+                } else if (elements.compareModal.style.display === 'flex') {
+                    closeCompareModal();
+                } else if (elements.keyboardHintOverlay.classList.contains('show')) {
+                    elements.keyboardHintOverlay.classList.remove('show');
+                } else if (elements.recentUsersDropdown.classList.contains('show')) {
+                    closeRecentUsersDropdown();
+                } else if (isInputActive && document.activeElement === elements.searchInput) {
+                    elements.searchInput.value = '';
+                    currentSearch = '';
+                    applyFiltersAndSort();
+                    elements.searchInput.blur();
+                }
+                return;
+            }
+
+            if (isInputActive) return;
+
+            switch (e.key.toLowerCase()) {
+                case '/':
+                    e.preventDefault();
+                    elements.searchInput.focus();
+                    break;
+                case 'g':
+                    if (isAuthenticated) {
+                        toggleRecentUsersDropdown();
+                    } else {
+                        openLoginModal();
+                    }
+                    break;
+                case 's':
+                    if (isAuthenticated) shareProfile();
+                    break;
+                case 'c':
+                    if (isAuthenticated) openCompareModal();
+                    break;
+                case 'r':
+                    if (isAuthenticated && filteredRepos.length > 0) surpriseMe();
+                    break;
+                case 't':
+                    handleThemeToggle();
+                    break;
+                case 'v':
+                    handleViewToggle(isGridView);
+                    break;
+                case 'arrowleft':
+                    if (currentPage > 1) handlePageChange(-1);
+                    break;
+                case 'arrowright':
+                    handlePageChange(1);
+                    break;
+                case '?':
+                    elements.keyboardHintOverlay.classList.toggle('show');
+                    break;
+            }
         }
 
         // Update stats
@@ -1888,13 +3277,18 @@
                 return;
             }
 
-            elements.loading.style.display = 'flex';
+            // Show skeleton loading instead of spinner
+            elements.skeletonGrid.style.display = 'grid';
+            elements.loading.style.display = 'none';
             elements.reposGrid.style.display = 'none';
             elements.pagination.style.display = 'none';
             elements.errorAlert.style.display = 'none';
             elements.emptyState.style.display = 'none';
 
             try {
+                // Fetch profile in parallel
+                const profilePromise = fetchUserProfile(currentUser);
+
                 let allReposData = [];
                 let page = 1;
 
@@ -1908,15 +3302,26 @@
 
                 allRepos = processRepos(allReposData);
 
+                // Show profile banner
+                const userProfile = await profilePromise;
+                if (userProfile) {
+                    renderProfileBanner(userProfile, allRepos.length);
+                    // Add to recent users
+                    addRecentUser(userProfile);
+                }
+
+                // Hide skeleton
+                elements.skeletonGrid.style.display = 'none';
+
                 if (allRepos.length === 0) {
                     showEmptyState();
                 } else {
                     updateLanguageOptions();
                     applyFiltersAndSort();
-                    elements.loading.style.display = 'none';
                     elements.reposGrid.style.display = 'grid';
                 }
             } catch (error) {
+                elements.skeletonGrid.style.display = 'none';
                 handleError(error);
             }
         }
@@ -1938,7 +3343,16 @@
         // Initialize app
         async function init() {
             initTheme();
+            loadRecentUsers();
+            renderRecentUsers();
             restoreAuthState();
+
+            // Handle ?user= URL parameter for shared profiles
+            const urlParams = new URLSearchParams(window.location.search);
+            const sharedUser = urlParams.get('user');
+            if (sharedUser && !isAuthenticated) {
+                loginUser(sharedUser);
+            }
 
             // Auth event listeners
             elements.loginBtn.addEventListener('click', openLoginModal);
@@ -1961,6 +3375,53 @@
                 }
             });
             elements.loginModal.querySelector('.modal-overlay').addEventListener('click', closeLoginModal);
+
+            // Recent users dropdown
+            elements.recentUsersBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleRecentUsersDropdown();
+            });
+            // Click outside closes the dropdown
+            document.addEventListener('click', (e) => {
+                if (!elements.recentUsersDropdown.contains(e.target) &&
+                    !elements.recentUsersBtn.contains(e.target)) {
+                    closeRecentUsersDropdown();
+                }
+            });
+
+            // Surprise me
+            elements.surpriseBtn.addEventListener('click', surpriseMe);
+
+            // Compare modal
+            elements.compareBtn.addEventListener('click', openCompareModal);
+            elements.compareModalClose.addEventListener('click', closeCompareModal);
+            elements.compareModal.querySelector('.modal-overlay').addEventListener('click', closeCompareModal);
+            elements.compareRunBtn.addEventListener('click', () => {
+                const u1 = elements.compareUser1.value.trim();
+                const u2 = elements.compareUser2.value.trim();
+                if (!u1 || !u2) {
+                    elements.compareError.textContent = 'Please enter both usernames';
+                    elements.compareError.style.display = 'block';
+                    return;
+                }
+                compareUsersByName(u1, u2);
+            });
+            const compareOnEnter = (e) => {
+                if (e.key === 'Enter') elements.compareRunBtn.click();
+            };
+            elements.compareUser1.addEventListener('keypress', compareOnEnter);
+            elements.compareUser2.addEventListener('keypress', compareOnEnter);
+
+            // Help button / keyboard shortcuts
+            elements.helpBtn.addEventListener('click', () => {
+                elements.keyboardHintOverlay.classList.toggle('show');
+            });
+            elements.closeHint.addEventListener('click', () => {
+                elements.keyboardHintOverlay.classList.remove('show');
+            });
+
+            // Global keyboard shortcuts
+            document.addEventListener('keydown', handleKeyboardShortcut);
 
             // Set up event listeners
             elements.searchInput.addEventListener('input', debounce((e) => {
